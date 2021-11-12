@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Category  - Shopme Admin', 'none')" />
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+		<div>
+			<h2>Manage Categories</h2>
+			<a th:href="@{/categories/new}">Create New Category</a>
+		</div>
+
+		<div class="alert alert-success text-center" th:if="${message!=null}">[[${message}]]</div>
+		<div class="alert alert-danger text-center" th:if="${message1!=null}">[[${message1}]]</div>
+
+		<div>
+			<form th:action="@{/categories/page/1}" class="form-inline m-3">
+				<!-- 				<input type="hidden" th:value="${sortField}" name="sortField"> <input type="hidden" th:value="${sortDir}" -->
+				<!-- 					name="sortDir">  -->
+				Filter: &nbsp; <input type="search" th:value="${keyword}" name="keyword" class="form-control" required="required" />
+				&nbsp;&nbsp; <input type="submit" value="Search" class="btn btn-primary"> &nbsp;&nbsp; <input type="button"
+					value="Clear" class="btn btn-secondary" onclick="clearFilter()">
+			</form>
+		</div>
+		<div>
+			<table class="table table-bordered table-striped table-hover table-responsive-xl">
+				<thead class="thead-dark">
+					<tr>
+						<th>ID</th>
+						<th>Image</th>
+						<th><a th:href="@{'/categories?sortDir=' + ${reverseSordir}}" class="text-white">Name <i
+								th:if="${reverseSordir=='desc'}" class="fas fa-sort-up"></i> <i th:if="${reverseSordir=='asc'}"
+								class="fas fa-sort-down"></i>
+						</a></th>
+						<th>Alias</th>
+						<th>Enabled</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="category: ${listCategories}">
+						<td>[[${category.id}]]</td>
+						<td><img alt="" th:src="@{${category.imagePath}}" width="100px" height="80px" class="img-fluid"></td>
+						<td>[[${category.name}]]</td>
+						<td>[[${category.alias}]]</td>
+						<td><a th:if="${category.enabled}" th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
+							class="fas fa-check-circle fa-2x icon-green" title="Disable this category"></a> <a th:if="${!category.enabled}"
+							th:href="@{'/categories/'+ ${category.id} + '/enabled/true'}" class="fas fa-circle fa-2x icon-dark"
+							title="Enable this category"></a></td>
+						<td><a class="fas fa-edit fa-2x icon-green" th:href="@{'/category/edit/' + ${category.id}}"
+							title="Edit this category"></a> &nbsp; <a th:if="${!category.hasChildren}"
+							class="fas fa-trash fa-2x icon-dark link-delete" th:catId="${category.id}"
+							th:href="@{'/categories/delete/' + ${category.id}}" title="Delete this category"></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="modal fade text-center" id="confirmModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Delete Confirmation</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<span id="confirmText"> </span>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-success" href="#" id="yesButton">Yes</a>
+						<button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:replace="fragments :: footer"></div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					$(".link-delete")
+							.on(
+									"click",
+									function(e) {
+										e.preventDefault();
+										link = $(this);
+										catId = link.attr("catId");
+										// 	                            alert(link.attr("href") + ' ' + catId);
+										$("#yesButton").attr("href",
+												link.attr("href"));
+										$("#confirmText").text(
+												"Are you sure you want to delete this user ID "
+														+ catId + "?");
+										$("#confirmModal").modal();
+									});
+				});
+
+		function clearFilter() {
+			window.location = "[[@{/categories}]]";
+		}
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: page_head('Products - Shopme Admin', 'none')" />
+
+<body>
+	<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+		<div>
+			<h2>Manage Products</h2>
+			<a th:href="@{/products/new}">Create New Products</a>
+		</div>
+		<div class="alert alert-success text-center" th:if="${message!=null}">[[${message}]]</div>
+		<div class="alert alert-danger text-center" th:if="${message1!=null}">[[${message1}]]</div>
+		<div>
+			<form th:action="@{#}" class="form-inline m-3" method="get">
+				<input type="hidden" th:value="${sortField}" name="sortField"> <input type="hidden" th:value="${sortDir}"
+					name="sortDir"> Filter: &nbsp; <input type="search" th:value="${keyword}" name="keyword"
+					class="form-control" required="required" /> &nbsp;&nbsp; <input type="submit" value="Search"
+					class="btn btn-primary"> &nbsp;&nbsp; <input type="button" value="Clear" class="btn btn-secondary"
+					onclick="clearFilter()">
+			</form>
+		</div>
+		<div>
+			<table class="table table-bordered table-striped table-hover table-responsive-xl">
+				<thead class="thead-dark">
+					<tr>
+						<th>Product ID</th>
+						<th>Main Image</th>
+						<th>Product Name</th>
+						<th>Brand</th>
+						<th>Category</th>
+						<th>Enabled</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product: ${listProducts}">
+						<td>[[${product.id}]]</td>
+						<td>
+						<img alt="product image" th:src="@{${product.mainImagePath}}" class="img-fluid" width="120px" height="80px">
+						</td>
+						<td>[[${product.name}]]</td>
+						<td>[[${product.brand.name}]]</td>
+						<td>[[${product.category.name}]]</td>
+						<td><a style="text-decoration: none"
+							th:href="@{${product.enabled?'/products/enabled/'+product.id+'/false':'/products/enabled/'+product.id+'/true'}}"
+							th:class="'fas ' + ${product.enabled?' fa-check-circle icon-green ':' fa-circle icon-dark '} + ' fa-2x'"
+							th:title="${product.enabled?'Disable this product':'Enable this product'} "></a></td>
+						<td><a class="fas fa-file-alt fa-2x icon-green" th:href="@{'/products/detail/' + ${product.id}}"
+							title="View detail product"></a>&nbsp; <a style="text-decoration: none" class="fas fa-edit fa-2x icon-green"
+							th:href="@{'/products/edit/' + ${product.id}}" title="Edit this product"></a> &nbsp; <a
+							style="text-decoration: none" class="fas fa-trash fa-2x icon-dark link-delete"
+							th:href="@{'/products/delete/' + ${product.id}}" title="Delete this product" th:productId="${product.id}"></a></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<div>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+					<li class="page-item active"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="modal fade text-center" id="confirmModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Delete Confirmation</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<span id="confirmText"> </span>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-success" href="#" id="yesButton">Yes</a>
+						<button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:replace="fragments :: footer"></div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					$(".link-delete")
+							.on(
+									"click",
+									function(e) {
+										e.preventDefault();
+										//alert($(this).attr("href"));
+										link = $(this);
+										userId = link.attr("productId");
+										$("#yesButton").attr("href",
+												link.attr("href"));
+										$("#confirmText").text(
+												"Bạn có thực sự muốn xoá product ID "
+														+ userId + "?");
+										$("#confirmModal").modal();
+									});
+				});
+
+		function clearFilter() {
+			window.location = "[[@{/products}]]";
+		}
+	</script>
+</body>
+
+</html>

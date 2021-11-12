@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="content" th:remove="tag">
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> Product Name </label>
+			<div class="col-sm-10">
+				<input th:field="*{name}" class="form-control" required />
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> Alias </label>
+			<div class="col-sm-10">
+				<input th:field="*{alias}" class="form-control" placeholder="Default is product name (spaces is replace by _)" />
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> Brand </label>
+			<div class="col-sm-10">
+				<select th:field="*{brand}" class="form-control" required="required">
+					<th:block th:each="brand : ${listBrands}">
+						<option th:value="${brand.id}">[[${brand.name}]]</option>
+					</th:block>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> Category </label>
+			<div class="col-sm-10">
+				<select th:field="*{category}" class="form-control" required="required">
+
+				</select>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> Enabled </label>
+			<div class="col-sm-10">
+				<input type="checkbox" th:field="*{enabled}" />
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> In-Stock </label>
+			<div class="col-sm-10">
+				<input type="checkbox" th:field="*{inStock}" />
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> Cost </label>
+			<div class="col-sm-10">
+				<input type="number" min="0" th:field="*{cost}" class="form-control" />
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> Price </label>
+			<div class="col-sm-10">
+				<input type="number" min="0" th:field="*{price}" class="form-control" />
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"> Discount </label>
+			<div class="col-sm-10">
+				<input type="number" min="0" th:field="*{discountPercent}" class="form-control" />
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
