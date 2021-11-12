@@ -85,13 +85,13 @@ public class ProductController {
 	// TODO Auto-generated method stub
 	if (!mainImageMultipart.isEmpty()) {
 	    String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
-	    String uploadDir = "/product-images/" + product.getId();
+	    String uploadDir = "../product-images/" + product.getId();
 	    FileUploadUtil.cleanDir(uploadDir);
 	    FileUploadUtil.saveFile(uploadDir, fileName, mainImageMultipart);
 	}
 
 	if (extraImageMultipart.length > 0) {
-	    String uploadDir = "/product-images/" + product.getId() + "/extras";
+	    String uploadDir = "../product-images/" + product.getId() + "/extras";
 	    for (MultipartFile multipartFile : extraImageMultipart) {
 		if (multipartFile.isEmpty()) {
 		    continue;
@@ -137,6 +137,22 @@ public class ProductController {
 	FileUploadUtil.removeDir(uploadDir2);
 
 	attributes.addFlashAttribute("message", "Đã xoá product có ID (" + id + ")");
+	return "redirect:/products";
+    }
+
+    @GetMapping("/products/edit/{id}")
+    public String editProduct(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes) {
+	try {
+	    Product product = productService.get(id);
+	    List<Brand> listBrands = brandService.listAll();
+	    model.addAttribute("listBrands", listBrands);
+	    model.addAttribute("product", product);
+	    model.addAttribute("pageTitle", "Edit Product ID: " + id);
+	    return "products/product_form";
+	} catch (Exception e) {
+	    attributes.addFlashAttribute("message1", e.getMessage());
+	    e.printStackTrace();
+	}
 	return "redirect:/products";
     }
 }

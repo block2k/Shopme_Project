@@ -56,8 +56,8 @@ public class CategoryController {
     @GetMapping("/categories/new")
     public String newCategory(Model model) {
 	List<Category> listCategories = service.listCategoryUsedInForm();
-
-	model.addAttribute("category", new Category());
+	Category category = new Category();
+	model.addAttribute("category", category);
 	model.addAttribute("listCategories", listCategories);
 	model.addAttribute("pageTitle", "Create New Category");
 

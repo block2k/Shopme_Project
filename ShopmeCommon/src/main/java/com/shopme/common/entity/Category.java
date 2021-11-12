@@ -37,135 +37,135 @@ public class Category {
     }
 
     public Category(String name) {
-        this.name = name;
-        this.alias = name;
-        this.image = "login.jpg";
+	this.name = name;
+	this.alias = name;
+	this.image = "login.jpg";
     }
 
     public Category(String name, Category parent) {
-        this(name);
-        this.parent = parent;
+	this(name);
+	this.parent = parent;
     }
 
     public Category(Integer id, String name, String alias) {
-        this.id = id;
-        this.name = name;
-        this.alias = alias;
+	this.id = id;
+	this.name = name;
+	this.alias = alias;
     }
 
     public static Category copyIdAndName(Category category) {
-        Category category2 = new Category();
-        category2.setId(category.getId());
-        category2.setName(category.getName());
+	Category category2 = new Category();
+	category2.setId(category.getId());
+	category2.setName(category.getName());
 
-        return category2;
+	return category2;
     }
 
     public static Category copyFull(Category category) {
-        Category category2 = new Category();
-        category2.setId(category.getId());
-        category2.setName(category.getName());
-        category2.setImage(category.getImage());
-        category2.setAlias(category.getAlias());
-        category2.setEnabled(category.isEnabled());
-        category2.setHasChildren(category.getChildrent().size() > 0);
+	Category category2 = new Category();
+	category2.setId(category.getId());
+	category2.setName(category.getName());
+	category2.setImage(category.getImage());
+	category2.setAlias(category.getAlias());
+	category2.setEnabled(category.isEnabled());
+	category2.setHasChildren(category.getChildrent().size() > 0);
 
-        return category2;
+	return category2;
     }
 
     public static Category copyFull(Category category, String name) {
-        Category copyCategory = Category.copyFull(category);
-        copyCategory.setName(name);
-        return copyCategory;
+	Category copyCategory = Category.copyFull(category);
+	copyCategory.setName(name);
+	return copyCategory;
     }
 
     public static Category copyIdAndName(Integer id, String name) {
-        Category category2 = new Category();
-        category2.setId(id);
-        category2.setName(name);
+	Category category2 = new Category();
+	category2.setId(id);
+	category2.setName(name);
 
-        return category2;
+	return category2;
     }
 
     public Category(Integer id) {
-        this.id = id;
+	this.id = id;
     }
 
     public Integer getId() {
-        return id;
+	return id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+	this.id = id;
     }
 
     public String getName() {
-        return name;
+	return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+	this.name = name;
     }
 
     public String getAlias() {
-        return alias;
+	return alias;
     }
 
     public void setAlias(String alias) {
-        this.alias = alias;
+	this.alias = alias;
     }
 
     public String getImage() {
-        return image;
+	return image;
     }
 
     public void setImage(String image) {
-        this.image = image;
+	this.image = image;
     }
 
     public boolean isEnabled() {
-        return enabled;
+	return enabled;
     }
 
     public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+	this.enabled = enabled;
     }
 
     public Category getParent() {
-        return parent;
+	return parent;
     }
 
     public void setParent(Category parent) {
-        this.parent = parent;
+	this.parent = parent;
     }
 
     public Set<Category> getChildrent() {
-        return childrent;
+	return childrent;
     }
 
     public void setChildrent(Set<Category> childrent) {
-        this.childrent = childrent;
+	this.childrent = childrent;
     }
 
     @Transient
     public String getImagePath() {
-        if (image.isEmpty() || image == null) {
-            return "/images/image-thumbnail.png";
-        }
-        return "/categories-images/" + this.id + "/" + this.image;
+	if (image.isEmpty() || image == null) {
+	    return "/images/image-thumbnail.png";
+	}
+	return "/categories-images/" + this.id + "/" + this.image;
     }
 
     public boolean isHasChildren() {
-        return hasChildren;
+	return hasChildren;
     }
 
     public void setHasChildren(boolean hasChildren) {
-        this.hasChildren = hasChildren;
+	this.hasChildren = hasChildren;
     }
 
     @Override
     public String toString() {
-        return this.name;
+	return this.name;
     }
 
     @Transient

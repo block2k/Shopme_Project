@@ -5,23 +5,42 @@
 		<div class="row" id="divProductImages">
 			<div class="col border m-3 p-2">
 				<div class="">
-					<label> Main Image </label>
+					<label> Main Image: [[${product.mainImage}]]</label>
 				</div>
 				<div class="m-2">
 					<img width="250px" height="200px" id="thumbnail" alt="Main image preview" th:src="@{${product.mainImagePath}}"
 						class="img-fluid">
 				</div>
 				<div>
-					<input type="file" id="fileImage" name="fileImage" required="required" accept="image/png, image/jpeg" />
+					<input type="file" id="fileImage" name="fileImage" th:required="${product.mainImage==null}"
+						accept="image/png, image/jpeg" />
 				</div>
+				<input type="hidden" th:field="*{mainImage}">
 			</div>
-			<div class="col border m-3 p-2" id="divExtraImage0">
-				<div class="" id="extraImageHeader0">
-					<label> Extra Image #1</label>
+
+			<th:block th:each="productImage,status : ${product.images}">
+				<div class="col border m-3 p-2" th:id="'divExtraImage' + ${status.index}">
+					<div>
+						<label> Extra Image #[[${status.index+1}]]: [[${productImage.name}]]</label> <a
+							class="btn fas fa-times-circle fa-2x icon-dark float-right" title="remove this image" name="linkRemoveExtraImage"></a>
+					</div>
+					<div class="m-2">
+						<img width="250px" height="200px" th:id="'extraThumbnail'+${status.index}" alt="cc"
+							th:src="@{${productImage.imagePath}}" class="img-fluid">
+					</div>
+					<div>
+						<input type="file" name="extraImage" accept="image/png, image/jpeg" />
+					</div>
+				</div>
+			</th:block>
+			<div class="col border m-3 p-2" id="divExtraImage">
+				<div>
+					<label> Extra Image</label> <a class="btn fas fa-times-circle fa-2x icon-dark float-right"
+						title="remove this image"></a>
 				</div>
 				<div class="m-2">
-					<img width="250px" height="200px" id="extraThumbnail0" alt="extra image #1 preview"
-						th:src="@{${product.mainImagePath}}" class="img-fluid">
+					<img width="250px" height="200px" id="extraThumbnail" alt="cc" th:src="@{/images/image-thumbnail.png}"
+						class="img-fluid">
 				</div>
 				<div>
 					<input type="file" name="extraImage" accept="image/png, image/jpeg" />

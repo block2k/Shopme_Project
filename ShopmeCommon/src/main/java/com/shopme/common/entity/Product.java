@@ -77,189 +77,197 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductDetail> details = new ArrayList<>();
 
+    public List<ProductDetail> getDetails() {
+	return details;
+    }
+
+    public void setDetails(List<ProductDetail> details) {
+	this.details = details;
+    }
+
     public Integer getId() {
-        return id;
+	return id;
     }
 
     public String getMainImage() {
-        return mainImage;
+	return mainImage;
     }
 
     public void setMainImage(String mainImage) {
-        this.mainImage = mainImage;
+	this.mainImage = mainImage;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+	this.id = id;
     }
 
     public String getName() {
-        return name;
+	return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+	this.name = name;
     }
 
     public String getAlias() {
-        return alias;
+	return alias;
     }
 
     public void setAlias(String alias) {
-        this.alias = alias;
+	this.alias = alias;
     }
 
     public String getShortDescription() {
-        return shortDescription;
+	return shortDescription;
     }
 
     public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+	this.shortDescription = shortDescription;
     }
 
     public String getFullDescription() {
-        return fullDescription;
+	return fullDescription;
     }
 
     public void setFullDescription(String fullDescription) {
-        this.fullDescription = fullDescription;
+	this.fullDescription = fullDescription;
     }
 
     public Date getCreatedTime() {
-        return createdTime;
+	return createdTime;
     }
 
     public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+	this.createdTime = createdTime;
     }
 
     public Date getUpdatedTime() {
-        return updatedTime;
+	return updatedTime;
     }
 
     public void setUpdatedTime(Date updatedTime) {
-        this.updatedTime = updatedTime;
+	this.updatedTime = updatedTime;
     }
 
     public boolean isEnabled() {
-        return enabled;
+	return enabled;
     }
 
     public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+	this.enabled = enabled;
     }
 
     public boolean isInStock() {
-        return inStock;
+	return inStock;
     }
 
     public void setInStock(boolean inStock) {
-        this.inStock = inStock;
+	this.inStock = inStock;
     }
 
     public float getCost() {
-        return cost;
+	return cost;
     }
 
     public void setCost(float cost) {
-        this.cost = cost;
+	this.cost = cost;
     }
 
     public float getPrice() {
-        return price;
+	return price;
     }
 
     public void setPrice(float price) {
-        this.price = price;
+	this.price = price;
     }
 
     public float getDiscountPercent() {
-        return discountPercent;
+	return discountPercent;
     }
 
     public void setDiscountPercent(float discountPercent) {
-        this.discountPercent = discountPercent;
+	this.discountPercent = discountPercent;
     }
 
     public float getLength() {
-        return length;
+	return length;
     }
 
     public void setLength(float length) {
-        this.length = length;
+	this.length = length;
     }
 
     public float getWidth() {
-        return width;
+	return width;
     }
 
     public void setWidth(float width) {
-        this.width = width;
+	this.width = width;
     }
 
     public float getHeight() {
-        return height;
+	return height;
     }
 
     public Set<ProductImage> getImages() {
-        return images;
+	return images;
     }
 
     public void setImages(Set<ProductImage> images) {
-        this.images = images;
+	this.images = images;
     }
 
     public void setHeight(float height) {
-        this.height = height;
+	this.height = height;
     }
 
     public float getWeight() {
-        return weight;
+	return weight;
     }
 
     public void setWeight(float weight) {
-        this.weight = weight;
+	this.weight = weight;
     }
 
     public Category getCategory() {
-        return category;
+	return category;
     }
 
     public void setCategory(Category category) {
-        this.category = category;
+	this.category = category;
     }
 
     public Brand getBrand() {
-        return brand;
+	return brand;
     }
 
     public void setBrand(Brand brand) {
-        this.brand = brand;
+	this.brand = brand;
     }
 
     public void addExtraImage(String imageName) {
-        this.images.add(new ProductImage(imageName, this));
+	this.images.add(new ProductImage(imageName, this));
     }
 
     public void addDetail(String name, String value) {
-        this.details.add(new ProductDetail(name, value, this));
+	this.details.add(new ProductDetail(name, value, this));
     }
 
     @Transient
     public String getMainImagePath() {
-        if (id == null || mainImage == null || mainImage.isEmpty()) {
-            return "/images/image-thumbnail.png";
-        }
-        return "/product-images/" + this.id + "/" + this.mainImage;
+	if (id == null || mainImage == null || mainImage.isEmpty()) {
+	    return "/images/image-thumbnail.png";
+	}
+	return "/product-images/" + this.id + "/" + this.mainImage;
     }
 
     @Override
     public String toString() {
-        return "Product [id=" + id + ", name=" + name + ", alias=" + alias + ", shortDescription=" + shortDescription
-                + ", fullDescription=" + fullDescription + ", createdTime=" + createdTime + ", updatedTime="
-                + updatedTime + ", enabled=" + enabled + ", inStock=" + inStock + ", cost=" + cost + ", price=" + price
-                + ", discountPercent=" + discountPercent + ", length=" + length + ", width=" + width + ", height="
-                + height + ", weight=" + weight + ", category=" + category + ", brand=" + brand + "]";
+	return "Product [id=" + id + ", name=" + name + ", alias=" + alias + ", shortDescription=" + shortDescription
+		+ ", fullDescription=" + fullDescription + ", createdTime=" + createdTime + ", updatedTime="
+		+ updatedTime + ", enabled=" + enabled + ", inStock=" + inStock + ", cost=" + cost + ", price=" + price
+		+ ", discountPercent=" + discountPercent + ", length=" + length + ", width=" + width + ", height="
+		+ height + ", weight=" + weight + ", category=" + category + ", brand=" + brand + "]";
     }
 
 }

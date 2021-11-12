@@ -13,8 +13,10 @@
 			<h2>Manage Product | [[${pageTitle}]]</h2>
 		</div>
 		<form th:action="@{/products/save}" method="post" th:object="${product}" enctype="multipart/form-data"
-			onsubmit="return checkUnique(this)" action="">
-			<input type="hidden" th:value="${product.id}" th:field="*{id}">
+			onsubmit="return checkUnique(this)">
+			<input type="hidden" th:value="${product.id}" th:field="*{id}"> <input th:if="${product.category!=null}"
+				type="hidden" th:value="${product.category.id}" id="categoryId">
+
 			<div>
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -70,7 +72,7 @@
 				dropdownCategories.empty();
 				getCategories();
 			});
-			getCategories();
+			getCategoriesForNewForm();
 
 			$("input[name='extraImage']").each(function(index) {
 				extraImageCount++;
@@ -79,7 +81,33 @@
 					showExtraImageThumbnail(this, index);
 				});
 			});
+			$("a[name='linkRemoveExtraImage']").each(function (index){
+				$(this).click(function(){
+					removeExtraImage(index)
+				});
+			});
+			
+			$("a[name='linkRemoveDetail']").each(function (index){
+				$(this).click(function(){
+					removeDetail(index)
+				});
+			});
 		});
+		
+		function removeDetail(index){
+			$("#divDetail" + index).remove();
+		}
+		
+		function getCategoriesForNewForm(){
+			catIdField = $("#categoryId");
+			editMode = false;
+			if(catIdField.length){
+				editMode = true;
+			}
+			if(!editMode){
+				getCategories();
+			}
+		}
 		
 		function showExtraImageThumbnail(fileInput, index ) {
 		    var file = fileInput.files[0];

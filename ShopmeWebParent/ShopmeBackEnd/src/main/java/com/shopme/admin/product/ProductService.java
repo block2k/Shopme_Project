@@ -55,4 +55,12 @@ public class ProductService {
     public void deleteProduct(Integer id) {
 	repo.deleteById(id);
     }
+
+    public Product get(Integer id) throws Exception {
+	try {
+	    return repo.findById(id).get();
+	} catch (Exception e) {
+	    throw new Exception("Không tìm thấy Product ID (" + id + ")");
+	}
+    }
 }
