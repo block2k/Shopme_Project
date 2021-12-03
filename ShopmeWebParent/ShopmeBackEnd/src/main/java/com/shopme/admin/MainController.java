@@ -1,5 +1,8 @@
 package com.shopme.admin;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -7,11 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
     @GetMapping("")
     public String viewHomePage() {
-	return "index";
+        return "index";
     }
 
     @GetMapping("/login")
     public String viewLoginPage() {
-	return "login";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // nếu chưa login, điều hướng đến trang login
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "login";
+        }
+        //nếu đã login, quay về trang chủ
+        return "redirect:/";
     }
 }

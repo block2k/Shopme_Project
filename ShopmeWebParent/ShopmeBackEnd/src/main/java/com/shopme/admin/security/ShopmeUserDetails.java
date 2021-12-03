@@ -14,7 +14,7 @@ import com.shopme.common.entity.User;
 
 public class ShopmeUserDetails implements UserDetails {
 
-    private User user;
+    private final User user;
 
     public ShopmeUserDetails(User user) {
 	this.user = user;

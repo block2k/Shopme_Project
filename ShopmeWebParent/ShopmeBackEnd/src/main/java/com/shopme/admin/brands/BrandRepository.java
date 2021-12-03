@@ -10,11 +10,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import com.shopme.common.entity.Brand;
 
 public interface BrandRepository extends PagingAndSortingRepository<Brand, Integer> {
-    public Brand findByName(String name);
+    Brand findByName(String name);
     
     @Query("select b from Brand b where b.name like %:keyword%")
-    public Page<Brand> findAll(String keyword, Pageable pageable);
+    Page<Brand> findAll(String keyword, Pageable pageable);
     
     @Query("select new Brand(b.id, b.name) from Brand b order by b.name asc")
-    public List<Brand> findAll();
+    List<Brand> findAll();
 }
