@@ -281,10 +281,18 @@ public class Product {
         }
         return false;
     }
+    @Transient
     public String getShortName(){
         if(this.name.length() > 20){
             return this.name.substring(0,20).concat("...");
         }
         return this.name;
+    }
+    @Transient
+    public float getDiscountPrice(){
+        if(discountPercent>0){
+            return price * ((100 -discountPercent)/100);
+        }
+        return this.price;
     }
 }

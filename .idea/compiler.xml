@@ -17,7 +17,7 @@
       <module name="ShopmeBackEnd" options="-parameters" />
       <module name="ShopmeCommon" options="-parameters" />
       <module name="ShopmeFrontend" options="-parameters" />
-      <module name="ShopmeWebParent" options="-parameters" />
+      <module name="ShopmeWebParent" options="" />
     </option>
   </component>
 </project>
