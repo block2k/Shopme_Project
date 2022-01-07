@@ -1,4 +1,4 @@
-# Website thương mại điện tử (Framework: Springboot)
+# Website shopping (Framework: Springboot)
 
 Setting để project chạy đúng với IntelliJ
 1. Vào Run -> Edit Configurations
