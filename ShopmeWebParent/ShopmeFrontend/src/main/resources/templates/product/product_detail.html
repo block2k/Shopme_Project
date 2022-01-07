@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Product | '+${pageTitle}, 'none')"/>
+<body>
+<div class="container-fluid">
+    <div th:replace="navigation :: header_menu"></div>
+    <div th:replace="navigation :: search_nav"></div>
+    <div th:replace="breadcrumb :: content"></div>
+    <div class="row">
+        <!--        product image-->
+        <div class="col-sm">
+            <div class="border text-center ">
+                <img alt="" class="img-fluid position-relative" id="bigImage" index="0" th:src="@{${product.mainImagePath}}" width="500">
+            </div>
+            <div class="row justify-content-center">
+                <div class="m-2">
+                    <img alt="" class="image-thumbnail border border-secondary p-1 img-fluid" height="80"
+                         index="0"
+                         th:src="@{${product.mainImagePath}}" width="100">
+                </div>
+                <th:block th:each="extraImage,status:${product.images}">
+                    <div class="m-2">
+                        <img alt="" class="image-thumbnail border border-secondary p-1 img-fluid" height="80"
+                             th:index="${status.count}"
+                             th:src="@{${extraImage.imagePath}}" width="100">
+                    </div>
+                </th:block>
+            </div>
+        </div>
+        <!--        product image-->
+        <!--        product name-->
+        <div class="col-sm">
+            <div>
+                <h2>[[${product.name}]]</h2>
+            </div>
+            <div>
+                <span>Brand: [[${product.brand.name}]]</span>
+            </div>
+            <div>
+                List Price:
+                <span th:if="${product.discountPercent<=0}">$[[${product.price}]]</span>
+                <del th:if="${product.discountPercent>0}">
+                    <span> $[[${product.price}]]</span>
+                </del>
+            </div>
+            <div th:if="${product.discountPercent>0}">
+                Price:
+                <span style="font-size: large;color: darkred">$[[${product.discountPrice}]]</span>
+                ([[${product.discountPercent}]] % off)
+            </div>
+            <div>&nbsp;</div>
+            <div th:utext="${product.shortDescription}">
+
+            </div>
+        </div>
+        <!--        product name-->
+        <div class="col-sm-2">
+            <div>
+                <span class="text-success" th:if="${product.inStock}">
+                    <b>In Stock</b>
+                </span>
+                <span class="text-danger" th:unless="${product.inStock}">
+                    <b>Out of Stock</b>
+                </span>
+            </div>
+            <div class="mt-2">
+                <input size="5" type="text" value="1">
+            </div>
+            <div class="mt-3">
+                <input class="btn btn-primary" type="button" value="Add to Cảt">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <hr>
+            </div>
+            <div>
+                <h3>Product Description:</h3>
+            </div>
+            <div th:utext="${product.fullDescription}"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <hr>
+            </div>
+            <div>
+                <h3>Product Detail:</h3>
+            </div>
+            <th:block th:each="detail : ${product.details}">
+                <div>
+                    <b>[[${detail.name}]]</b>:
+                    <span>[[${detail.value}]]</span>
+                </div>
+            </th:block>
+        </div>
+    </div>
+    <div th:replace="product/image_slideshow :: content"></div>
+    <div th:replace="navigation :: footer_menu"></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        bigImage = $("#bigImage");
+
+        $(".image-thumbnail").mouseover(function () {
+            currentImageSrc = $(this).attr("src");
+            currentImageIndex = $(this).attr("index");
+
+            bigImage.attr("src", currentImageSrc);
+            bigImage.attr("index", currentImageIndex);
+        });
+        bigImage.on("click", function () {
+            $("#slideshowModal").modal("show");
+            imageIndex = parseInt(bigImage.attr("index"));
+            $("#carouselExampleIndicators").carousel(imageIndex);
+        });
+    });
+</script>
+</body>
+</html>

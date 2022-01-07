@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('MyShop', 'none')" />
+<head th:replace="fragments :: page_head('MyShop', 'none')"/>
 <body>
-	<div class="container-fluid">
-		<div th:replace="navigation :: header_menu"></div>
-		<div>
-			<h1>Shopping by Categories </h1>
-		</div>
-		<div class="row">
-			<div class="col" th:each="cat : ${listCateogories}">
-				<div>
-					<img alt="" th:src="@{${cat.imagePath}}" width="122px" height="100px" class="img-fluid">
-				</div>
+<div class="container-fluid">
+    <div th:replace="navigation :: header_menu"></div>
+    <div th:replace="navigation :: search_nav"></div>
 
-				<div>
-					<a th:href="@{'/c/' + ${cat.alias}}">[[${cat.name}]]</a>
-				</div>
-			</div>
-		</div>
-		<div th:replace="navigation :: footer_menu"></div>
+    <div>
+        <h1 class="text-center">Shopping by Categories </h1>
+    </div>
+    <div class="container">
+        <div class="row ">
+            <div class="col-sm-2 border" th:each="cat : ${listCateogories}">
+                <div class="justify-content-center align-items-center p-2">
+                    <a th:href="@{'/c/' + ${cat.alias}}">
+                        <div class="text-center">
+                            <img alt="" th:src="@{${cat.imagePath}}" width="122px">
+                        </div>
+                        <div class="text-center font-weight-bold">
+                            [[${cat.name}]]
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="navigation :: footer_menu"></div>
 </body>
 </html>

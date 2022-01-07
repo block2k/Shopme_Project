@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')"/>
+<body>
+<div class="container-fluid">
+    <div th:replace="navigation :: header_menu"></div>
+    <div th:replace="navigation :: search_nav"></div>
+    <div th:if="${totalItems>0}">
+        <h2>Search result for [[${keyword}]]</h2>
+    </div>
+    <div th:unless="${totalItems>0}">
+        <h2>No match result for [[${keyword}]]</h2>
+    </div>
+    <div class="row">
+        <th:block th:each="product : ${listProducts}">
+            <div th:replace="product/product_fragment :: content"></div>
+        </th:block>
+    </div>
+    <div class="text-center m-1" th:if="${#lists.size(listProducts) > 0}">
+        <span> Showing Products # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+    </div>
+    <div th:if="${#lists.size(listProducts) > 0}">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li th:class="${currentPage>1?'page-item':'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/search/page/' + '1' + ${sortDir==null?'':'?sortDir='+sortDir}
+                        + ${sortField==null?'':'&sortField=' +sortField} + ${categoryId!=null?'&categoryId=' + categoryId:''} + ${keyword==null?'':'?keyword='+keyword} }">First</a>
+                </li>
+                <li th:class="${currentPage>1?'page-item':'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/search/page/' + '/' + ${currentPage-1} + ${sortDir==null?'':'?sortDir='+sortDir}
+                        + ${sortField==null?'':'&sortField=' +sortField} + ${categoryId!=null?'&categoryId=' + categoryId:''} + ${keyword==null?'':'?keyword='+keyword} }">Previous</a>
+                </li>
+                <li th:class="${i==currentPage?'page-item active':'page-item'}"
+                    th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{'/search/page/' + ${i} + ${sortDir==null?'':'?sortDir='+sortDir}
+                        + ${sortField==null?'':'&sortField=' +sortField} +${categoryId!=null?'&categoryId=' + categoryId:''} + ${keyword==null?'':'?keyword='+keyword} }">[[${i}]]</a>
+                </li>
+                <li th:class="${currentPage < totalPages?'page-item':'page-item disabled'}"><a class="page-link"
+                                                                                               th:href="@{'/search/page/' + ${currentPage+1} + ${sortDir==null?'':'?sortDir='+sortDir}
+                        + ${sortField==null?'':'&sortField=' +sortField} +${categoryId!=null?'&categoryId=' + categoryId:''} + ${keyword==null?'':'?keyword='+keyword} }">Next</a>
+                </li>
+                <li th:class="${currentPage<totalPages?'page-item':'page-item disabled'}">
+                    <a class="page-link"
+                       th:href="@{'/search/page/' + ${totalPages} + ${sortDir==null?'':'?sortDir='+sortDir}
+                        + ${sortField==null?'':'&sortField=' +sortField} + ${categoryId!=null?'&categoryId=' + categoryId:''} + ${keyword==null?'':'?keyword='+keyword} }">Last</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div th:replace="navigation :: footer_menu"></div>
+</body>
+</html>

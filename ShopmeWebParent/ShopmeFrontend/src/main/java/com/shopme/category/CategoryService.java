@@ -1,6 +1,7 @@
 package com.shopme.category;
 
 import com.shopme.common.entity.Category;
+import com.shopme.common.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +24,20 @@ public class CategoryService {
         return listCategoryNoChild;
     }
 
-    public Category getCategory(String alias) {
-        return categoryRepository.findByAliasEnabled(alias);
+    public Category getCategory(String alias) throws CategoryNotFoundException {
+        Category category = categoryRepository.findByAliasEnabled(alias);
+        if (category == null) {
+            throw new CategoryNotFoundException("Category not found");
+        }
+        return category;
     }
 
     public List<Category> getCategoryParent(Category child) {
         List<Category> listParent = new ArrayList<>();
         Category parent = child.getParent();
-        while (parent!=null){
+        while (parent != null) {
             listParent.add(0, parent);
-            parent=parent.getParent();
+            parent = parent.getParent();
         }
         listParent.add(child);
         return listParent;

@@ -1,18 +1,7 @@
 package com.shopme.common.entity;
 
+import javax.persistence.*;
 import java.util.*;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "products")
@@ -68,6 +57,7 @@ public class Product {
     private String mainImage;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("name asc")
     private Set<ProductImage> images = new HashSet<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -281,17 +271,19 @@ public class Product {
         }
         return false;
     }
+
     @Transient
-    public String getShortName(){
-        if(this.name.length() > 20){
-            return this.name.substring(0,20).concat("...");
+    public String getShortName() {
+        if (this.name.length() > 20) {
+            return this.name.substring(0, 20).concat("...");
         }
         return this.name;
     }
+
     @Transient
-    public float getDiscountPrice(){
-        if(discountPercent>0){
-            return price * ((100 -discountPercent)/100);
+    public float getDiscountPrice() {
+        if (discountPercent > 0) {
+            return price * ((100 - discountPercent) / 100);
         }
         return this.price;
     }

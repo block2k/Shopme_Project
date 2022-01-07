@@ -1,0 +1,13 @@
+.block .block__header {
+    margin-bottom: 40px;
+    background: #dddfe6;
+    height: 11px;
+    position: relative;
+}
+
+.block .block__header, .home__sub__banner__slide .swiper-slide {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
